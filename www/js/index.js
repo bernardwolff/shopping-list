@@ -33,6 +33,7 @@
   function addItem() {
     var $newItem = $("#newItem");
     var newItem = $newItem.val();
+    if (!newItem) return;
     shoppingList.push(newItem);
     persistStorage();
     appendItem(newItem);
