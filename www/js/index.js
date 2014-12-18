@@ -18,16 +18,23 @@
 
   function appendItem(item) {
     $shoppingList.append(
-      '<li>' +
-      '<a href="#">' + item + '</a>' +
-      '<a title="Delete" href="#" class="delete ui-btn ui-btn-icon-notext ui-icon-delete"></a>' +
-      '</li>').listview("refresh");
+      "<li>" +
+      "<a href='#'>" + item + "</a>" +
+      "<a title='Delete' href='#' class='delete ui-btn ui-btn-icon-notext ui-icon-delete'></a>" +
+      "</li>").listview("refresh");
   }
 
   function bindList() {
     shoppingList.forEach(function(item) {
       appendItem(item);
     });
+  }
+
+  function reverseBind() {
+    shoppingList = $shoppingList.children("li").map(function(idx, li) {
+      return li.innerText.trim();
+    }).get();
+    persistStorage();
   }
 
   function addItem() {
@@ -42,8 +49,12 @@
   }
 
   function attachEvents() {
-    $('.delete').off('click');
-    $('.delete').on('click', deleteItem);
+    $(".delete").off("click");
+    $(".delete").on("click", deleteItem);
+    $shoppingList.sortable({
+      opacity: 0.6,
+      update: reverseBind
+    });
   }
 
   function deleteItem() {
@@ -59,9 +70,9 @@
 
   $(document).on("ready", function(){
     shoppingList = initStorage();
-    $shoppingList = $("#shoppingList");
+    $shoppingList = $("ul#shoppingList");
     bindList();
     attachEvents();
-    $('#addItem').on('click', addItem);
+    $("#addItem").on("click", addItem);
   });
 })(jQuery);
