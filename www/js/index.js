@@ -36,7 +36,13 @@
     shoppingList.push(newItem);
     persistStorage();
     appendItem(newItem);
+    attachEvents();
     $newItem.val("");
+  }
+
+  function attachEvents() {
+    $('.delete').off('click');
+    $('.delete').on('click', deleteItem);
   }
 
   function deleteItem() {
@@ -54,7 +60,7 @@
     shoppingList = initStorage();
     $shoppingList = $("#shoppingList");
     bindList();
+    attachEvents();
     $('#addItem').on('click', addItem);
-    $('.delete').on('click', deleteItem);
   });
 })(jQuery);
